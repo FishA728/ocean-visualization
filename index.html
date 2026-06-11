@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海洋要素可视化系统</title>
+    <style>
+      :root {
+        --el-fill-color-blank: rgba(5, 18, 42, 0.95);
+        --el-bg-color: rgba(5, 18, 42, 0.95);
+        --el-bg-color-overlay: rgba(5, 18, 42, 0.97);
+        --el-input-bg-color: rgba(5, 18, 42, 0.95);
+        --el-border-color: rgba(0, 150, 255, 0.3);
+        --el-border-color-base: rgba(0, 150, 255, 0.3);
+        --el-input-border-color: rgba(0, 150, 255, 0.3);
+        --el-input-hover-border-color: rgba(0, 180, 255, 0.5);
+        --el-input-focus-border-color: rgba(0, 200, 255, 0.6);
+      }
+      #app {
+        --el-fill-color-blank: rgba(5, 18, 42, 0.95);
+        --el-bg-color: rgba(5, 18, 42, 0.95);
+        --el-bg-color-overlay: rgba(5, 18, 42, 0.97);
+        --el-input-bg-color: rgba(5, 18, 42, 0.95);
+        --el-border-color: rgba(0, 150, 255, 0.3);
+        --el-border-color-base: rgba(0, 150, 255, 0.3);
+        --el-input-border-color: rgba(0, 150, 255, 0.3);
+        --el-input-hover-border-color: rgba(0, 180, 255, 0.5);
+        --el-input-focus-border-color: rgba(0, 200, 255, 0.6);
+      }
+      .el-input__wrapper,
+      .el-select__wrapper {
+        box-shadow: none !important;
+        outline: none !important;
+      }
+      .el-input__wrapper:focus,
+      .el-input__wrapper.is-focus,
+      .el-input__wrapper:hover,
+      .el-select__wrapper:focus,
+      .el-select__wrapper.is-focus,
+      .el-select__wrapper:hover {
+        box-shadow: 0 0 0 1px rgba(0, 180, 255, 0.4) inset !important;
+        outline: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
