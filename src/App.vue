@@ -327,7 +327,7 @@ const handleSaveTheme = () => {
 }
 
 // ========== 折线图 ==========
-const generateChartData = () => {
+const generateChartDataUo = () => {
   const startYear = parseInt(yearRange.value[0])
   const endYear = parseInt(yearRange.value[1])
   const span = endYear - startYear
@@ -356,12 +356,41 @@ const generateChartData = () => {
   return data
 }
 
+const generateChartDataVo = () => {
+  const startYear = parseInt(yearRange.value[0])
+  const endYear = parseInt(yearRange.value[1])
+  const span = endYear - startYear
+  const data: [string, number][] = []
+
+  if (span > 3) {
+    for (let year = startYear; year <= endYear; year++) {
+      const base = Math.cos((year - 2010) * 0.55) * 0.08
+      const noise = (Math.random() - 0.5) * 0.05
+      const value = 0.03 + base + noise
+      data.push([`${year}`, parseFloat(value.toFixed(3))])
+    }
+  } else {
+    for (let year = startYear; year <= endYear; year++) {
+      for (let month = 1; month <= 12; month++) {
+        const t = (year - startYear) + (month - 1) / 12
+        const base = Math.cos(t * 1.5) * 0.07
+        const noise = (Math.random() - 0.5) * 0.03
+        const value = 0.03 + base + noise
+        data.push([`${year}-${String(month).padStart(2, '0')}`, parseFloat(value.toFixed(3))])
+      }
+    }
+  }
+
+  return data
+}
+
 const getChartOption = (): echarts.EChartsOption => {
-  const data = generateChartData()
+  const dataUo = generateChartDataUo()
+  const dataVo = generateChartDataVo()
   return {
     backgroundColor: 'rgba(0, 0, 0, 0.55)',
     title: {
-      text: '洋流Uo随时间变化',
+      text: '洋流流速分量随时间变化',
       left: 10,
       top: 8,
       textStyle: { color: '#e0e0e0', fontSize: 16, fontWeight: 500 },
@@ -383,8 +412,8 @@ const getChartOption = (): echarts.EChartsOption => {
     tooltip: { show: false },
     xAxis: {
       type: 'category',
-      data: data.map(d => d[0]),
-      axisLabel: { color: '#888888', fontSize: 10, rotate: data.length > 12 ? 45 : 0 },
+      data: dataUo.map(d => d[0]),
+      axisLabel: { color: '#888888', fontSize: 10, rotate: dataUo.length > 12 ? 45 : 0 },
       axisLine: { lineStyle: { color: '#444444' } },
       axisTick: { show: false },
     },
@@ -398,18 +427,34 @@ const getChartOption = (): echarts.EChartsOption => {
       axisLine: { show: false },
       axisTick: { show: false },
     },
-    series: [{
-      type: 'line',
-      data: data.map(d => d[1]),
-      smooth: false,
-      symbol: 'circle',
-      symbolSize: 5,
-      lineStyle: { color: '#4a90d9', width: 1.5 },
-      itemStyle: {
-        color: '#4a90d9',
-        borderWidth: 0,
+    series: [
+      {
+        name: 'Uo (纬向)',
+        type: 'line',
+        data: dataUo.map(d => d[1]),
+        smooth: false,
+        symbol: 'circle',
+        symbolSize: 5,
+        lineStyle: { color: '#4a90d9', width: 1.5 },
+        itemStyle: {
+          color: '#4a90d9',
+          borderWidth: 0,
+        },
       },
-    }],
+      {
+        name: 'Vo (经向)',
+        type: 'line',
+        data: dataVo.map(d => d[1]),
+        smooth: false,
+        symbol: 'diamond',
+        symbolSize: 5,
+        lineStyle: { color: '#e8923f', width: 1.5 },
+        itemStyle: {
+          color: '#e8923f',
+          borderWidth: 0,
+        },
+      },
+    ],
   }
 }
 
